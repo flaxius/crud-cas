@@ -1,0 +1,99 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Portunus Services",
+    "version": "1.0.0",
+    "contact": {
+      "name": "KEYS for my new services",
+      "url": "https://portunus.com",
+      "email": "flavius.lacatusu@gmail.com"
+    }
+  },
+  "basePath": "/portia",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/oauth/1.0.0/auth/token": {
+      "post": {
+        "summary": "Create new todo task",
+        "operationId": "Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/oauthCreateResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/oauthCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Oauth2Service"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "oauthCreateRequest": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/oauthUser",
+          "title": "Task entity to add"
+        }
+      },
+      "title": "Request data to create new JWT"
+    },
+    "oauthCreateResponse": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "title": "Specification of type of JWT(In this case will be Bearer)"
+        },
+        "AccessToken": {
+          "type": "string",
+          "title": "Acces_token is the token value"
+        }
+      },
+      "title": "Response that contains data for created JWT"
+    },
+    "oauthUser": {
+      "type": "object",
+      "properties": {
+        "uuaa": {
+          "type": "string",
+          "title": "Uuua claim to put in jwt"
+        },
+        "ivuser": {
+          "type": "string",
+          "title": "IVU claim to put in jwt"
+        }
+      },
+      "title": "User registred in \"xmas\""
+    }
+  }
+}

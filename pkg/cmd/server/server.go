@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"context"
-	"github.com/flaxius/crud-cas/pkg/protocol/grpc"
-	"github.com/flaxius/crud-cas/pkg/protocol/rest"
-	"github.com/flaxius/crud-cas/pkg/services"
-	"github.com/flaxius/crud-cas/ports"
+	"github.com/flaxius/portia/pkg/protocol/grpc"
+	"github.com/flaxius/portia/pkg/protocol/rest"
+	"github.com/flaxius/portia/pkg/services"
+	"github.com/flaxius/portia/ports"
 	"time"
 )
 

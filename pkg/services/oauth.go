@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/flaxius/crud-cas/pkg/pb/authentication"
+	"github.com/flaxius/portia/pkg/pb/authentication"
 	"sync"
 	"time"
 )
@@ -38,7 +38,7 @@ func (s *serviceTokenServer) Create(ctx context.Context, req *oauth.CreateReques
 
 	// Create the JWT claims, which includes the username and expiry time
 	var claims = &Claims{
-		req.User.Ivuser,
+		"XE77772",
 		false,
 		jwt.StandardClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds

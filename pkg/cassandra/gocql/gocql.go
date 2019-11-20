@@ -1,17 +1,15 @@
 package gocql
 
 import (
-	"github.com/flaxius/crud-cas/pkg/cassandra"
+	"github.com/flaxius/portia/pkg/cassandra"
 	"github.com/gocql/gocql"
 )
-
 //COPIED some funcs from jaeger pkgs
 
 // CQLSession is a wrapper around gocql.Session.
 type CQLSession struct {
 	session *gocql.Session
 }
-
 // WrapCQLSession creates a Session out of *gocql.Session.
 func WrapCQLSession(session *gocql.Session) CQLSession {
 	return CQLSession{session: session}

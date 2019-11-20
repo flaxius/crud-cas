@@ -2,7 +2,6 @@ package rest
 
 import (
 	"context"
-	"github.com/flaxius/crud-cas/pkg/pb/authentication"
 	"log"
 	"net/http"
 	"os"
@@ -11,6 +10,8 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
+
+	"github.com/flaxius/portia/pkg/pb/authentication"
 )
 
 // RunServer runs HTTP/REST gateway

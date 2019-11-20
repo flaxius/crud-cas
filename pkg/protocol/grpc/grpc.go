@@ -2,12 +2,12 @@ package grpc
 
 import (
 	"context"
-	"github.com/flaxius/crud-cas/pkg/pb/authentication"
 	"log"
 	"net"
 	"os"
 	"os/signal"
 
+	"github.com/flaxius/portia/pkg/pb/authentication"
 	"google.golang.org/grpc"
 )
 

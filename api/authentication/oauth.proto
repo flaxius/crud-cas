@@ -1,0 +1,66 @@
+syntax = "proto3";
+package oauth;
+
+//import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+// Taks we have to do
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "Portunus Services";
+		version: "1.0.0";
+		contact: {
+			name: "KEYS for my new services";
+			url: "https://portunus.com";
+			email: "flavius.lacatusu@gmail.com";
+        };
+    };
+    base_path: "/portia";
+    schemes: [HTTP,HTTPS];
+    consumes: "application/json";
+    produces: "application/json";
+    responses: {
+		key: "404";
+		value: {
+			description: "Returned when the resource does not exist.";
+			schema: {
+				json_schema: {
+					type: STRING;
+				}
+			}
+		}
+	}
+};
+
+// User registred in "xmas"
+message User {
+    // Uuua claim to put in jwt
+    string uuaa = 1;
+    // IVU claim to put in jwt
+    string ivuser = 2;
+}
+
+// Request data to create new JWT
+message CreateRequest{
+    // Task entity to add
+    User user = 2;
+}
+
+// Response that contains data for created JWT
+message CreateResponse{
+    // Specification of type of JWT(In this case will be Bearer)
+    string type  = 1;
+    // Acces_token is the token value
+    string AccessToken = 2;
+}
+// Service to manage list of todo tasks
+service Oauth2Service {
+    // Create new todo task
+    rpc Create(CreateRequest) returns (CreateResponse){
+        option (google.api.http) = {
+            post: "/oauth/1.0.0/auth/token"
+            body: "*"
+        };
+    }
+}
