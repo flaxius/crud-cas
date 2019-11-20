@@ -21,15 +21,15 @@
     "application/json"
   ],
   "paths": {
-    "/oauth/1.0.0/auth/token": {
-      "post": {
+    "/securestore/users/{user_id}": {
+      "get": {
         "summary": "Create new todo task",
         "operationId": "Create",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/oauthCreateResponse"
+              "$ref": "#/definitions/oauthUserStoreIdRes"
             }
           },
           "404": {
@@ -42,12 +42,11 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
+            "name": "user_id",
+            "in": "path",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/oauthCreateRequest"
-            }
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "tags": [
@@ -57,43 +56,20 @@
     }
   },
   "definitions": {
-    "oauthCreateRequest": {
+    "oauthUserStoreIdRes": {
       "type": "object",
       "properties": {
-        "user": {
-          "$ref": "#/definitions/oauthUser",
-          "title": "Task entity to add"
-        }
-      },
-      "title": "Request data to create new JWT"
-    },
-    "oauthCreateResponse": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "title": "Specification of type of JWT(In this case will be Bearer)"
+        "user_id": {
+          "type": "integer",
+          "format": "int32"
         },
-        "AccessToken": {
-          "type": "string",
-          "title": "Acces_token is the token value"
-        }
-      },
-      "title": "Response that contains data for created JWT"
-    },
-    "oauthUser": {
-      "type": "object",
-      "properties": {
-        "uuaa": {
-          "type": "string",
-          "title": "Uuua claim to put in jwt"
+        "user_jwk_sig": {
+          "type": "string"
         },
-        "ivuser": {
-          "type": "string",
-          "title": "IVU claim to put in jwt"
+        "user_jwk_enc": {
+          "type": "string"
         }
-      },
-      "title": "User registred in \"xmas\""
+      }
     }
   }
 }

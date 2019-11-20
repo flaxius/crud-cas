@@ -32,15 +32,25 @@ var _ = utilities.NewDoubleArray
 var _ = descriptor.ForMessage
 
 func request_Oauth2Service_Create_0(ctx context.Context, marshaler runtime.Marshaler, client Oauth2ServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateRequest
+	var protoReq UserStoreIdReq
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["user_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "user_id")
 	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+
+	protoReq.UserId, err = runtime.Int32(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "user_id", err)
 	}
 
 	msg, err := client.Create(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -49,15 +59,25 @@ func request_Oauth2Service_Create_0(ctx context.Context, marshaler runtime.Marsh
 }
 
 func local_request_Oauth2Service_Create_0(ctx context.Context, marshaler runtime.Marshaler, server Oauth2ServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq CreateRequest
+	var protoReq UserStoreIdReq
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["user_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "user_id")
 	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+
+	protoReq.UserId, err = runtime.Int32(val)
+
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "user_id", err)
 	}
 
 	msg, err := server.Create(ctx, &protoReq)
@@ -70,7 +90,7 @@ func local_request_Oauth2Service_Create_0(ctx context.Context, marshaler runtime
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
 func RegisterOauth2ServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server Oauth2ServiceServer) error {
 
-	mux.Handle("POST", pattern_Oauth2Service_Create_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Oauth2Service_Create_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -131,7 +151,7 @@ func RegisterOauth2ServiceHandler(ctx context.Context, mux *runtime.ServeMux, co
 // "Oauth2ServiceClient" to call the correct interceptors.
 func RegisterOauth2ServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client Oauth2ServiceClient) error {
 
-	mux.Handle("POST", pattern_Oauth2Service_Create_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Oauth2Service_Create_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -155,7 +175,7 @@ func RegisterOauth2ServiceHandlerClient(ctx context.Context, mux *runtime.ServeM
 }
 
 var (
-	pattern_Oauth2Service_Create_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"oauth", "1.0.0", "auth", "token"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Oauth2Service_Create_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"securestore", "users", "user_id"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

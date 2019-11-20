@@ -7,7 +7,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/flaxius/portia/pkg/pb/authentication"
+	"github.com/flaxius/crud-cas/pkg/pb/authentication"
 	"google.golang.org/grpc"
 )
 

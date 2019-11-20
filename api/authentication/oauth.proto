@@ -54,13 +54,22 @@ message CreateResponse{
     // Acces_token is the token value
     string AccessToken = 2;
 }
+
+message UserStoreIdReq {
+    int32 user_id = 1;
+}
+
+message UserStoreIdRes {
+    int32 user_id = 1;
+    string user_jwk_sig = 2;
+    string user_jwk_enc = 3;
+}
 // Service to manage list of todo tasks
 service Oauth2Service {
     // Create new todo task
-    rpc Create(CreateRequest) returns (CreateResponse){
+    rpc Create(UserStoreIdReq) returns (UserStoreIdRes){
         option (google.api.http) = {
-            post: "/oauth/1.0.0/auth/token"
-            body: "*"
+            get: "/securestore/users/{user_id}"
         };
     }
 }

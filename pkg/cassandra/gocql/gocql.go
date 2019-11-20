@@ -1,7 +1,7 @@
 package gocql
 
 import (
-	"github.com/flaxius/portia/pkg/cassandra"
+	"github.com/flaxius/crud-cas/pkg/cassandra"
 	"github.com/gocql/gocql"
 )
 //COPIED some funcs from jaeger pkgs

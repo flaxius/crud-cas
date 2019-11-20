@@ -4,14 +4,28 @@ import (
 	"context"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/flaxius/portia/pkg/pb/authentication"
+	"github.com/flaxius/crud-cas/pkg/pb/authentication"
 	"sync"
+	"github.com/flaxius/crud-cas/pkg/cassandra"
+	cascfg "github.com/flaxius/crud-cas/pkg/cassandra/config"
 	"time"
 )
+const (
+	insertServiceName = `INSERT INTO service_names(service_name) VALUES (?)`
+	queryServiceNames = `SELECT user_code,user_jwk_enc FROM userstore WHERE user_id=9495`
+)
+
+// Span is the database representation of a span.
+type UserStore struct {
+	user_code      string // deprecated
+	user_jwk_enc string
+}
 
 type serviceTokenServer struct {
 	oauth *oauth.User
 	m     sync.Mutex
+	session cassandra.Session
+	queryServiceNames string
 }
 
 var jwtKey = []byte("clave_de_maxima_seguridad_XD")
@@ -28,35 +42,35 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func (s *serviceTokenServer) Create(ctx context.Context, req *oauth.CreateRequest) (*oauth.CreateResponse, error) {
+func (s *serviceTokenServer) Create(ctx context.Context, req *oauth.UserStoreIdReq) (*oauth.UserStoreIdRes, error) {
 	s.m.Lock()
 	defer s.m.Unlock()
-	// Declare the expiration time of the token
-	// here, we have kept it as 5 minutes
-	expirationTime := time.Now().Add(5 * time.Minute)
-	//var date &oauth.User{}
-
-	// Create the JWT claims, which includes the username and expiry time
-	var claims = &Claims{
-		"XE77772",
-		false,
-		jwt.StandardClaims{
-			// In JWT, the expiry time is expressed as unix milliseconds
-			Audience:  "Novatos",
-			Issuer:    "Dios",
-			Subject:   "Pruebas",
-			ExpiresAt: expirationTime.Unix(),
-		},
-	} // Declare the token with the algorithm used for signing, and the claims
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	// Create the JWT string
-	tokenString, err := token.SignedString(jwtKey)
-	if err != nil {
-		// If there is an error in creating the JWT return an internal server error
-		fmt.Println("AAA")
+	cConfig := &cascfg.Configuration{
+		Servers:              []string{"22.6.4.241"},
+		Keyspace:             "securestore",
+		ConnectionsPerHost:   10,
+		Timeout:              time.Millisecond * 750,
+		ProtoVersion:         4,
+		Port:9042,
 	}
-	return &oauth.CreateResponse{
-		Type:        "Bearer",
-		AccessToken: tokenString,
+	cqlSession, _ := cConfig.NewSession()
+	papa := cqlSession.Query(queryServiceNames).Iter()
+	var user_code string
+	var user_jwk_enc string
+	var operations []UserStore
+	for papa.Scan(&user_code,&user_jwk_enc) {
+		//operations = append(operations, operation)
+		dbSpan := UserStore{
+			user_code:    user_code,
+			user_jwk_enc: user_jwk_enc,
+		}
+		operations = append(operations,dbSpan)
+	}
+	papa.Close()
+	fmt.Println(operations)
+	return &oauth.UserStoreIdRes{
+		UserId:        1,
+		UserJwkEnc:"A",
+		UserJwkSig:"B",
 	}, nil
 }

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/flaxius/portia/pkg/cmd/server"
+	"github.com/flaxius/crud-cas/pkg/cmd/server"
 	"os"
 )
 

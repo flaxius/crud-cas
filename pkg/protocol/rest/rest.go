@@ -11,7 +11,7 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"google.golang.org/grpc"
 
-	"github.com/flaxius/portia/pkg/pb/authentication"
+	"github.com/flaxius/crud-cas/pkg/pb/authentication"
 )
 
 // RunServer runs HTTP/REST gateway
